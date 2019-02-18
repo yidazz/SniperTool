@@ -4,6 +4,10 @@
 extern SVector *OSCRecByteQueue;
 /* 使用一个数据队列缓存区资源 */
 extern SVector *OSCDataBuffQueue;
+/* 使用一个业务发送队列缓存区资源 */
+extern SVector *OSCSendBuffVector;
+
+vector<char> a1(10,9);
 
 SFirAnalysis::SFirAnalysis()
 {
@@ -15,44 +19,61 @@ SFirAnalysis::~SFirAnalysis()
 
 bool SFirAnalysis::FirAnalysis(char &rRecByte)
 {
+	int State = NoComplete;
 	/** 收到帧的开头 */
 	if (ProFir_Header == rRecByte)
 	{
 		/** 判断缓存区中是否有残缺数据 */
 		if (NULL != OSCRecByteQueue->Queue1.size())
 		{
-			/* 有残缺数据 则拷贝到公共队列区 */
+			/* 有残缺数据 则拷贝到数据队列缓存区 */
 			OSCDataBuffQueue->Queue2.push_back(OSCRecByteQueue->Queue1);
 			/* 清空临时缓存区 */
 			OSCRecByteQueue->Queue1.clear();
 			/* 将新数据存入临时缓存区 */
 			OSCRecByteQueue->Queue1.push_back(rRecByte);
-			/* 有业务需要发送 */
-			return TRUE;
+			/* 收到错误数据 */
+			State = FrameError;
+		}
+		else
+		{
+			/* 将新数据存入临时缓存区 */
+			OSCRecByteQueue->Queue1.push_back(rRecByte);
 		}
 	}
-
 	/** 收到帧的结尾 */
-	if (ProFir_End == rRecByte)
+	else if (ProFir_End == rRecByte)
 	{
 		/* 将新数据存入临时缓存区 */
 		OSCRecByteQueue->Queue1.push_back(rRecByte);
 		/* 判断帧是否满足条件 */
 		if(TRUE!= FirConfirm())
 		{
+			/* 收到错误数据 */
+			State = FrameError;
+		}
+		else
+		{
+			/* 收到完整数据 */
+			State = FramePerfect;
 		}
 		/* 将整帧拷贝到公共队列区 */
 		OSCDataBuffQueue->Queue2.push_back(OSCRecByteQueue->Queue1);
 		/* 清空临时缓存区 */
 		OSCRecByteQueue->Queue1.clear();
-		/* 有业务需要发送 */
-		return TRUE;
+
 	}
-	/* 将新数据存入临时缓存区 */
-	OSCRecByteQueue->Queue1.push_back(rRecByte);
-	/* 无业务需要发送 */
-	return FALSE;
-	//OSCSVector->Queue2.erase(OSCSVector->Queue2.begin());
+	else
+	{
+		/* 将新数据存入临时缓存区 */
+		OSCRecByteQueue->Queue1.push_back(rRecByte);
+	}
+	if (NoComplete != State)
+	{
+		/* 组装业务申请消息 */
+		OSCSendBuffVector->Queue2.push_back(a1);
+	}
+	return TRUE;
 }
 
 

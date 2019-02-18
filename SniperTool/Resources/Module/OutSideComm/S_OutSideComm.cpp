@@ -37,8 +37,10 @@ SVector *OSCDataBuffQueue = new SVector;
 SVector *OSCDataVector = new SVector;
 /* 使用一个等待业务完成队列缓存区资源 */
 SVector *OSCWaitBuffVector = new SVector;
-/* 使用一个入口队列缓存区资源 */
-SVector *OSCInBuffVector = new SVector;
+/* 使用一个发送入口队列缓存区资源 */
+SVector *OSCSendInBuffVector = new SVector;
+/* 使用一个接收入口队列缓存区资源 */
+SVector *OSCRecInBuffVector = new SVector;
 
 /* 使用一个微秒定时器资源 */
 STimerUs *OSCTimerUs = new STimerUs;

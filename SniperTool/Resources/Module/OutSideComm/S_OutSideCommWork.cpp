@@ -27,8 +27,10 @@ extern SVector *OSCDataBuffQueue;
 extern SVector *OSCDataVector;
 /* 使用一个等待业务完成队列缓存区资源 */
 extern SVector *OSCWaitBuffVector;
-/* 使用一个入口队列缓存区资源 */
-extern SVector *OSCInBuffVector;
+/* 使用一个发送入口队列缓存区资源 */
+extern SVector *OSCSendInBuffVector;
+/* 使用一个接收入口队列缓存区资源 */
+extern SVector *OSCRecInBuffVector;
 
 /* 使用一个微秒定时器资源 */
 extern STimerUs *OSCTimerUs;

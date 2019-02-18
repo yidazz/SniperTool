@@ -41,6 +41,12 @@ private:
 //
 //};
 
+enum FrameState {
+	NoComplete,               //帧未收完
+	FramePerfect,             //收到完整帧
+	FrameError,         //收到不完整帧
+	FrameStateTotal,       // 总数
+};
 
 
 #endif //S_BYTEANALYSIS_H_ 

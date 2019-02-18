@@ -89,6 +89,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Protocol.cpp" />
     <ClCompile Include="Remark.cpp" />
     <ClCompile Include="Resources\Class\ByteAnalySelect\S_ByteAnalySelect.cpp" />
     <ClCompile Include="Resources\Class\ByteAnalysis\S_ByteAnalysis.cpp" />

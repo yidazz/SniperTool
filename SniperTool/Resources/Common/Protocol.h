@@ -4,14 +4,14 @@
 
 /* 公共部分 */
 
-enum InsideProtocol {
-	InServiceNum1,             // 业务编号低位
-	InServiceNum2,             // 业务编号中低位
-	InServiceNum3,             // 业务编号中高位
-	InServiceNum4,             // 业务编号高位
-	InSource,                  // 来源号
-	InDest,                    // 目的号
-	InsideProtocolTotal,       // 总数
+enum ServiceMsgProtocol {
+	ServiceNum1,              // 业务编号低位
+	ServiceNum2,              // 业务编号中低位
+	ServiceNum3,              // 业务编号中高位
+	ServiceNum4,              // 业务编号高位
+	ServiceSourceNum,                  // 来源号
+	ServiceDestNum,                    // 目的号
+	ServiceMsgProtocolTotal,        // 总数
 	/* 剩余字节格式按照各模块业务表要求的格式发送 */
 };
 
@@ -31,4 +31,12 @@ enum ModuleNum {
 	OSCRecModNum,          // 外部交流器模块
 	ModuleNumTotal,       // 总数
 };
+
+enum InBuffMsgProtocol {
+	InSource,                  // 来源号
+	InDest,                    // 目的号
+	InIndex,                   // 消息索引
+	InBuffMsgProtocolTotal,       // 总数
+};
+
 #endif //PROTOCOL_H_ 

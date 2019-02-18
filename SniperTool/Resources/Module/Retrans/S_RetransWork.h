@@ -8,6 +8,7 @@
 #include "S_OutSideComm.h"
 #include "S_ByteAnalysis.h"
 #include "S_TimerUs.h"  
+#include <stdio.h>
 
 
 

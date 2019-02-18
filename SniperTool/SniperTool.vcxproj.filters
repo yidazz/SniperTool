@@ -143,6 +143,9 @@
     <ClCompile Include="Remark.cpp">
       <Filter>Remark</Filter>
     </ClCompile>
+    <ClCompile Include="Protocol.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="snipertool.h">

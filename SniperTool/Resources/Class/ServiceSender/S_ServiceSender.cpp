@@ -10,8 +10,10 @@ extern SVector *OSCDataBuffQueue;
 extern SVector *OSCDataVector;
 /* 使用一个等待业务完成队列缓存区资源 */
 extern SVector *OSCWaitBuffVector;
-/* 使用一个入口队列缓存区资源 */
-extern SVector *OSCInBuffVector;
+/* 使用一个发送入口队列缓存区资源 */
+extern SVector *OSCSendInBuffVector;
+/* 使用一个接收入口队列缓存区资源 */
+extern SVector *OSCRecInBuffVector;
 
 int lastsize1 = 0;
 int lastsize2 = 0;
@@ -28,6 +30,15 @@ SServiceSender::~SServiceSender()
 
 bool SServiceSender::ServiceSender()
 {
+	if (NULL != OSCSendBuffVector->Queue2.size())
+	{
+
+	}
+
+
+
+
+
 	//if (0 != OSCSendBuffVector->Queue2.size() && lastsize1 != OSCSendBuffVector->Queue2.size())
 	//{
 	//	lastsize1 = OSCSendBuffVector->Queue2.size();
@@ -44,29 +55,26 @@ bool SServiceSender::ServiceSender()
 	//}
 
 
-	system("cls");
-	cout << " 1:  ";
-	for (UINT i = 0; i < OSCRecByteQueue->Queue1.size(); i++)
-	{
-		cout << hex << (unsigned int)(unsigned char)(OSCRecByteQueue->Queue1[i]) << " ";
-	}
-	cout << endl;
-	cout << endl;
-
-	cout << " 2:  ";
-	for (UINT i = 0; i < OSCDataBuffQueue->Queue2.size(); i++)
-	{
-		for (UINT j = 0; j < OSCDataBuffQueue->Queue2[i].size(); j++)
-		{
-			cout << hex << (unsigned int)(unsigned char)(OSCDataBuffQueue->Queue2[i][j]) << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
-	cout << endl;
-	//if (0 == ServiceSendQueue->Queue2.size())
+	//system("cls");
+	//cout << " 1:  ";
+	//for (UINT i = 0; i < OSCRecByteQueue->Queue1.size(); i++)
 	//{
-	//	return FALSE;
+	//	cout << hex << (unsigned int)(unsigned char)(OSCRecByteQueue->Queue1[i]) << " ";
 	//}
+	//cout << endl;
+	//cout << endl;
+
+	//cout << " 2:  ";
+	//for (UINT i = 0; i < OSCDataBuffQueue->Queue2.size(); i++)
+	//{
+	//	for (UINT j = 0; j < OSCDataBuffQueue->Queue2[i].size(); j++)
+	//	{
+	//		cout << hex << (unsigned int)(unsigned char)(OSCDataBuffQueue->Queue2[i][j]) << " ";
+	//	}
+	//	cout << endl;
+	//}
+	//cout << endl;
+	//cout << endl;
+
 	return TRUE;
 }
