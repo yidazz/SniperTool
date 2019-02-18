@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{c72cfdc0-8131-4cbe-a7f4-b67d521cda25}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{d5ea57cc-e353-4c66-b824-010791d150db}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Class">
+      <UniqueIdentifier>{85a6a168-37cb-429b-af42-cea84a4fd9bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Thread">
+      <UniqueIdentifier>{677ffb51-60fa-4381-b933-cb8eee12296e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module">
+      <UniqueIdentifier>{9a70453b-16f8-46a0-986e-f5b843244490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\OutSideComm">
+      <UniqueIdentifier>{b5d03f00-cbff-4c60-bc08-398f6406068f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{20133317-0596-4053-9414-d85b09ac5b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{0e603e14-eb44-4f43-a2b2-dea0ea4372ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Analy">
+      <UniqueIdentifier>{2d08530c-7876-4bb4-8889-e9132b38f1ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\TimerUs">
+      <UniqueIdentifier>{d16cf0a9-4906-4bfd-b4b5-39a1dce5e595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Vector">
+      <UniqueIdentifier>{978f8b7a-5d79-4d4e-a4c9-d6bce03d25c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\OutSideComm">
+      <UniqueIdentifier>{c6249a3d-5b9d-4019-abca-87b5d3e02d9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\OutSideCommSelect">
+      <UniqueIdentifier>{583bcc57-675b-4849-87cd-e2260ad317d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\AnalySelect">
+      <UniqueIdentifier>{a88b6967-735a-4992-8071-4dbe9742ac45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\ServiceSender">
+      <UniqueIdentifier>{ffcfbe11-b38e-46c2-a8cc-601bcb4da5c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\ThreadWatchDog">
+      <UniqueIdentifier>{5474a3c8-39b8-4df0-acd8-d19ef3472987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Module\Retrans">
+      <UniqueIdentifier>{005e24c0-7720-41ec-bf80-29dbcf76ccbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Remark">
+      <UniqueIdentifier>{3e324f60-790e-4261-803f-fe66cf70a878}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="snipertool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_snipertool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_snipertool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_snipertool.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Module\OutSideComm\S_OutSideComm.cpp">
+      <Filter>Module\OutSideComm</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\SerialPort\S_SerialPort.cpp">
+      <Filter>Class\OutSideComm</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\Thread\S_Thread.cpp">
+      <Filter>Class\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Module\OutSideComm\S_OutSideCommWork.cpp">
+      <Filter>Module\OutSideComm</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\TimerUs\S_TimerUs.cpp">
+      <Filter>Class\TimerUs</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\ByteAnalysis\S_ByteAnalysis.cpp">
+      <Filter>Class\Analy</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\Vector\S_Vector.cpp">
+      <Filter>Class\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\OutSideCommSelect\S_OutSideCommSelect.cpp">
+      <Filter>Class\OutSideCommSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\ByteAnalySelect\S_ByteAnalySelect.cpp">
+      <Filter>Class\AnalySelect</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\ServiceSender\S_ServiceSender.cpp">
+      <Filter>Class\ServiceSender</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Module\ThreadWatchDog\S_ThreadWatchDog.cpp">
+      <Filter>Module\ThreadWatchDog</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Module\ThreadWatchDog\S_ThreadWatchDogWork.cpp">
+      <Filter>Module\ThreadWatchDog</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Module\Retrans\S_Retrans.cpp">
+      <Filter>Module\Retrans</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Module\Retrans\S_RetransWork.cpp">
+      <Filter>Module\Retrans</Filter>
+    </ClCompile>
+    <ClCompile Include="Remark.cpp">
+      <Filter>Remark</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="snipertool.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="snipertool.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="snipertool.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_snipertool.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Module\OutSideComm\S_OutSideComm.h">
+      <Filter>Module\OutSideComm</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\SerialPort\S_SerialPort.h">
+      <Filter>Class\OutSideComm</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\Thread\S_Thread.h">
+      <Filter>Class\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Common\ErrorTable.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Config\QueueConfig.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Module\OutSideComm\S_OutSideCommWork.h">
+      <Filter>Module\OutSideComm</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\TimerUs\S_TimerUs.h">
+      <Filter>Class\TimerUs</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\ByteAnalysis\S_ByteAnalysis.h">
+      <Filter>Class\Analy</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\Vector\S_Vector.h">
+      <Filter>Class\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\OutSideCommSelect\S_OutSideCommSelect.h">
+      <Filter>Class\OutSideCommSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\ByteAnalySelect\S_ByteAnalySelect.h">
+      <Filter>Class\AnalySelect</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\ServiceSender\S_ServiceSender.h">
+      <Filter>Class\ServiceSender</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Module\ThreadWatchDog\S_ThreadWatchDog.h">
+      <Filter>Module\ThreadWatchDog</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Module\ThreadWatchDog\S_ThreadWatchDogWork.h">
+      <Filter>Module\ThreadWatchDog</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Common\Protocol.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Module\Retrans\S_Retrans.h">
+      <Filter>Module\Retrans</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Module\Retrans\S_RetransWork.h">
+      <Filter>Module\Retrans</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
