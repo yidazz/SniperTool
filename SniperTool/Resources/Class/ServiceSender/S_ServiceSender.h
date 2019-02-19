@@ -6,6 +6,7 @@
 #include <vector>
 #include <qDebug.h>  
 #include "S_Vector.h"
+#include "Protocol.h"
 #include <iostream>  
 
 using namespace std;

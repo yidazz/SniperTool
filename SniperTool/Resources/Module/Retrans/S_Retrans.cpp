@@ -10,7 +10,7 @@ SThread *RTMThread = new SThread;
 STimerUs *RTTimerUs = new STimerUs;
 
 /* 使用一个入口队列缓存区资源 */
-SVector *RTInVector = new SVector;
+vector <MESSAGE*> RTInVector;
 
 RetransModule::RetransModule()
 {

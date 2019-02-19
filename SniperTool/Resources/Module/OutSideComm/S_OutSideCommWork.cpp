@@ -21,12 +21,6 @@ extern SServiceSender *OSCServiceSender;
 extern SVector *OSCSendBuffVector;
 /* 使用一个外部字节接收队列缓存区资源 */
 extern SVector *OSCRecByteQueue;
-/* 使用一个数据队列缓存区资源 */
-extern SVector *OSCDataBuffQueue;
-/* 使用一个等待数据被读取队列缓存区资源 */
-extern SVector *OSCDataVector;
-/* 使用一个等待业务完成队列缓存区资源 */
-extern SVector *OSCWaitBuffVector;
 /* 使用一个发送入口队列缓存区资源 */
 extern SVector *OSCSendInBuffVector;
 /* 使用一个接收入口队列缓存区资源 */

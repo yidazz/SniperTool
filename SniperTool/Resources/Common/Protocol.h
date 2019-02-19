@@ -2,7 +2,25 @@
 #ifndef PROTOCOL_H_  
 #define PROTOCOL_H_  
 
+#include <Windows.h>  
+#include <vector>
+using std::vector;
 /* 公共部分 */
+
+class MESSAGE
+{
+public:
+	~MESSAGE()
+	{
+		vector<char>().swap(Data);
+	}
+public:
+	unsigned int ServiceNum;//消息编号
+	unsigned char SourceNum;//来源模块
+	vector <char> Data;
+};
+
+
 
 enum ServiceMsgProtocol {
 	ServiceNum1,              // 业务编号低位

@@ -2,12 +2,10 @@
 
 /* 使用一个外部字节接收队列缓存区资源 */
 extern SVector *OSCRecByteQueue;
-/* 使用一个数据队列缓存区资源 */
-extern SVector *OSCDataBuffQueue;
 /* 使用一个业务发送队列缓存区资源 */
 extern SVector *OSCSendBuffVector;
 
-vector<char> a1(10,9);
+vector<char> a1 = { 1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0 };
 
 SFirAnalysis::SFirAnalysis()
 {
@@ -27,7 +25,7 @@ bool SFirAnalysis::FirAnalysis(char &rRecByte)
 		if (NULL != OSCRecByteQueue->Queue1.size())
 		{
 			/* 有残缺数据 则拷贝到数据队列缓存区 */
-			OSCDataBuffQueue->Queue2.push_back(OSCRecByteQueue->Queue1);
+			OSCRecByteQueue->Queue2.push_back(OSCRecByteQueue->Queue1);
 			/* 清空临时缓存区 */
 			OSCRecByteQueue->Queue1.clear();
 			/* 将新数据存入临时缓存区 */
@@ -58,7 +56,7 @@ bool SFirAnalysis::FirAnalysis(char &rRecByte)
 			State = FramePerfect;
 		}
 		/* 将整帧拷贝到公共队列区 */
-		OSCDataBuffQueue->Queue2.push_back(OSCRecByteQueue->Queue1);
+		OSCRecByteQueue->Queue2.push_back(OSCRecByteQueue->Queue1);
 		/* 清空临时缓存区 */
 		OSCRecByteQueue->Queue1.clear();
 
