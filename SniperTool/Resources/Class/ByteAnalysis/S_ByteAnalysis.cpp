@@ -1,11 +1,33 @@
 #include "S_ByteAnalysis.h"
 
+/* 使用一个业务发送器资源 */
+extern SServiceSender *OSCServiceSender;
+
 /* 使用一个外部字节接收队列缓存区资源 */
 extern SVector *OSCRecByteQueue;
-/* 使用一个业务发送队列缓存区资源 */
-extern SVector *OSCSendBuffVector;
 
-vector<char> a1 = { 1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0 };
+/* 使用一个微秒定时器资源 */
+extern STimerUs *OSCSendTimerUs;
+/* 使用一个微秒定时器资源 */
+extern STimerUs *OSCRecTimerUs;
+
+/* 使用一个临时测试用定时器资源 */
+STimerUs *Temp1 =new STimerUs;
+STimerUs *Temp2 = new STimerUs;
+STimerUs *Temp3 = new STimerUs;
+
+uint Sa1 = 0;
+uint Sa2 = 0;
+int temp = 0;
+
+void TempMakeMsg(MESSAGE* Message)
+{
+	for (int i = 0;i < 100;i++)
+	{
+		Message->Data[i] = 3;
+	}
+	Message->DestNum = OSCSendThreadNum;
+}
 
 SFirAnalysis::SFirAnalysis()
 {
@@ -21,6 +43,7 @@ bool SFirAnalysis::FirAnalysis(char &rRecByte)
 	/** 收到帧的开头 */
 	if (ProFir_Header == rRecByte)
 	{
+		Temp1->Zero();
 		/** 判断缓存区中是否有残缺数据 */
 		if (NULL != OSCRecByteQueue->Queue1.size())
 		{
@@ -66,10 +89,26 @@ bool SFirAnalysis::FirAnalysis(char &rRecByte)
 		/* 将新数据存入临时缓存区 */
 		OSCRecByteQueue->Queue1.push_back(rRecByte);
 	}
+	Sa1 = Temp1->Timer();
+	if (Sa1 >= 2000)
+	{
+		printf("                                             %d\n", Sa1);
+	}
 	if (NoComplete != State)
 	{
+		Temp2->Zero();
+		/* 新建一个内存区 */
+		MESSAGE *NewMemory = new MESSAGE;
 		/* 组装业务申请消息 */
-		OSCSendBuffVector->Queue2.push_back(a1);
+		TempMakeMsg(NewMemory);
+		vector<vector<char>>().swap(OSCRecByteQueue->Queue2);
+		/* 发送新建的内存区地址 */
+		OSCServiceSender->ServiceSender(NewMemory);
+		Sa2 = Temp2->Timer();
+		if (Sa2 >= 2000)
+		{
+			printf("                                             %d\n", Sa2);
+		}
 	}
 	return TRUE;
 }

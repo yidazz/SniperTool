@@ -7,6 +7,13 @@
 #include "S_Thread.h" 
 #include "S_Vector.h"
 #include "Protocol.h"
+#include "S_TimerUs.h"  
+#include "S_SerialPort.h"  
+#include "S_OutSideComm.h"
+#include "S_ThreadWatchDog.h"
+#include "S_Retrans.h"
+#include <QMessageBox.h>
+
 
 
 

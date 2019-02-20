@@ -30,7 +30,7 @@ S_ThreadWatchDogWork.cpp .h     暂时使用一个Vector存储运行中线程编号    使用一个
 函数用类继承的方式   在一个继承族谱上可访问   一般做成私有
 
 重新翻译变量名
-
+尽可能不用Vector
 
 
 

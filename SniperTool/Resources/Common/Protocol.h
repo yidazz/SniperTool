@@ -7,18 +7,6 @@
 using std::vector;
 /* 公共部分 */
 
-class MESSAGE
-{
-public:
-	~MESSAGE()
-	{
-		vector<char>().swap(Data);
-	}
-public:
-	unsigned int ServiceNum;//消息编号
-	unsigned char SourceNum;//来源模块
-	vector <char> Data;
-};
 
 
 
@@ -56,5 +44,20 @@ enum InBuffMsgProtocol {
 	InIndex,                   // 消息索引
 	InBuffMsgProtocolTotal,       // 总数
 };
+
+class MESSAGE
+{
+//public:
+//	~MESSAGE()
+//	{
+//		vector<char>().swap(Data);
+//	}
+public:
+	unsigned int ServiceNum;//消息编号
+	ThreadNum SourceNum;//来源模块
+	ThreadNum DestNum;//目的模块
+	char Data[3000];
+};
+
 
 #endif //PROTOCOL_H_ 

@@ -8,6 +8,8 @@ extern SVector *OSCRecByteQueue;
 extern SVector *OSCSendInBuffVector;
 /* 使用一个接收入口队列缓存区资源 */
 extern SVector *OSCRecInBuffVector;
+/* 使用一个入口队列互斥量资源 */
+extern CRITICAL_SECTION S_csRTIn;   //互斥量
 /* 使用一个入口队列缓存区资源 */
 extern vector <MESSAGE*> RTInVector;
 
@@ -24,21 +26,15 @@ SServiceSender::~SServiceSender()
 }
 
 
-bool SServiceSender::ServiceSender()
+bool SServiceSender::ServiceSender(MESSAGE* MessageIndex)
 {
-	while (NULL != OSCSendBuffVector->Queue2.size())
-	{
-		int len = OSCSendBuffVector->Queue2[0].size();
-		MESSAGE *Que = new MESSAGE;
-		Que->Data.swap(OSCSendBuffVector->Queue2[0]);
-		OSCSendBuffVector->Queue2.erase(OSCSendBuffVector->Queue2.begin());
-		Que->ServiceNum = -1;
-		RTInVector.push_back(Que);
-	}
-
-
-
-
+	/* 进入临界段 */
+	EnterCriticalSection(&S_csRTIn);
+	/* 将消息地址推入转发器入口 */
+	RTInVector.push_back(MessageIndex);
+	/** 离开临界段 */
+	LeaveCriticalSection(&S_csRTIn);
+	return TRUE;
 
 	//if (0 != OSCSendBuffVector->Queue2.size() && lastsize1 != OSCSendBuffVector->Queue2.size())
 	//{
@@ -77,5 +73,4 @@ bool SServiceSender::ServiceSender()
 	//cout << endl;
 	//cout << endl;
 
-	return TRUE;
 }

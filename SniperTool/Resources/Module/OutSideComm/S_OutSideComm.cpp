@@ -27,26 +27,34 @@ SFirAnalysis *OSCFirAnalysis = new SFirAnalysis;
 /* 使用一个业务发送器资源 */
 SServiceSender *OSCServiceSender = new SServiceSender;
 
-/* 使用一个业务发送队列缓存区资源 */
-SVector *OSCSendBuffVector = new SVector;
 /* 使用一个外部字节接收队列缓存区资源 */
 SVector *OSCRecByteQueue = new SVector;
+/* 使用一个入口队列互斥量资源 */
+CRITICAL_SECTION S_csOSCSendIn;   //互斥量
+/* 使用一个入口队列互斥量资源 */
+CRITICAL_SECTION S_csOSCRecIn;   //互斥量
 /* 使用一个发送入口队列缓存区资源 */
-SVector *OSCSendInBuffVector = new SVector;
+vector <MESSAGE*> OSCSendInBuffVector;
 /* 使用一个接收入口队列缓存区资源 */
-SVector *OSCRecInBuffVector = new SVector;
+vector <MESSAGE*> OSCRecInBuffVector;
 
 /* 使用一个微秒定时器资源 */
-STimerUs *OSCTimerUs = new STimerUs;
+STimerUs *OSCSendTimerUs = new STimerUs;
+/* 使用一个微秒定时器资源 */
+STimerUs *OSCRecTimerUs = new STimerUs;
 
 
 OutSideCommModule::OutSideCommModule()
 {
+	InitializeCriticalSection(&S_csOSCSendIn);
+	InitializeCriticalSection(&S_csOSCRecIn);
 	ErrCode = NoError;
 }
 
 OutSideCommModule::~OutSideCommModule()
 {
+	DeleteCriticalSection(&S_csOSCSendIn);
+	DeleteCriticalSection(&S_csOSCRecIn);
 	ErrCode = NoError;
 	EndOSCM();
 	CloseSerialPort();

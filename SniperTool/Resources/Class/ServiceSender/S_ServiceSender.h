@@ -21,7 +21,7 @@ public:
 	~SServiceSender();
 
 public:
-	bool ServiceSender();
+	bool ServiceSender(MESSAGE* MessageIndex);
 
 };
 
