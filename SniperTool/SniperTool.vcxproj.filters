@@ -116,9 +116,6 @@
     <ClCompile Include="Resources\Class\ByteAnalysis\S_ByteAnalysis.cpp">
       <Filter>Class\Analy</Filter>
     </ClCompile>
-    <ClCompile Include="Resources\Class\Vector\S_Vector.cpp">
-      <Filter>Class\Vector</Filter>
-    </ClCompile>
     <ClCompile Include="Resources\Class\OutSideCommSelect\S_OutSideCommSelect.cpp">
       <Filter>Class\OutSideCommSelect</Filter>
     </ClCompile>
@@ -145,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Protocol.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\Class\Vector\S_Queue.cpp">
+      <Filter>Class\Vector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +186,6 @@
     <ClInclude Include="Resources\Class\ByteAnalysis\S_ByteAnalysis.h">
       <Filter>Class\Analy</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\Class\Vector\S_Vector.h">
-      <Filter>Class\Vector</Filter>
-    </ClInclude>
     <ClInclude Include="Resources\Class\OutSideCommSelect\S_OutSideCommSelect.h">
       <Filter>Class\OutSideCommSelect</Filter>
     </ClInclude>
@@ -212,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="Resources\Module\Retrans\S_RetransWork.h">
       <Filter>Module\Retrans</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Class\Vector\S_Queue.h">
+      <Filter>Class\Vector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

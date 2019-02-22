@@ -1,17 +1,12 @@
 #include "S_ServiceSender.h"  
 
-/* 使用一个业务发送队列缓存区资源 */
-extern SVector *OSCSendBuffVector;
-/* 使用一个外部字节接收队列缓存区资源 */
-extern SVector *OSCRecByteQueue;
 /* 使用一个发送入口队列缓存区资源 */
-extern SVector *OSCSendInBuffVector;
+extern SMsgQue *OSCSendInVector;
 /* 使用一个接收入口队列缓存区资源 */
-extern SVector *OSCRecInBuffVector;
-/* 使用一个入口队列互斥量资源 */
-extern CRITICAL_SECTION S_csRTIn;   //互斥量
+extern SMsgQue *OSCRecInVector;
+
 /* 使用一个入口队列缓存区资源 */
-extern vector <MESSAGE*> RTInVector;
+extern SMsgQue *RTInVector;
 
 int lastsize1 = 0;
 int lastsize2 = 0;
@@ -28,12 +23,8 @@ SServiceSender::~SServiceSender()
 
 bool SServiceSender::ServiceSender(MESSAGE* MessageIndex)
 {
-	/* 进入临界段 */
-	EnterCriticalSection(&S_csRTIn);
 	/* 将消息地址推入转发器入口 */
-	RTInVector.push_back(MessageIndex);
-	/** 离开临界段 */
-	LeaveCriticalSection(&S_csRTIn);
+	RTInVector->PushBack(MessageIndex);
 	return TRUE;
 
 	//if (0 != OSCSendBuffVector->Queue2.size() && lastsize1 != OSCSendBuffVector->Queue2.size())

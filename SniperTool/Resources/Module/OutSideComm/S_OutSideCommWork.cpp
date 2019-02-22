@@ -17,29 +17,23 @@ extern SFirAnalysis *OSCFirAnalysis;
 /* 使用一个业务发送器资源 */
 extern SServiceSender *OSCServiceSender;
 
-/* 使用一个业务发送队列缓存区资源 */
-extern SVector *OSCSendBuffVector;
-/* 使用一个外部字节接收队列缓存区资源 */
-extern SVector *OSCRecByteQueue;
-/* 使用一个入口队列互斥量资源 */
-extern CRITICAL_SECTION S_csOSCSendIn;   //互斥量
-/* 使用一个入口队列互斥量资源 */
-extern CRITICAL_SECTION S_csOSCRecIn;   //互斥量
 /* 使用一个发送入口队列缓存区资源 */
-extern vector <MESSAGE*> OSCSendInBuffVector;
+extern SMsgQue *OSCSendInVector;
 /* 使用一个接收入口队列缓存区资源 */
-extern vector <MESSAGE*> OSCRecInBuffVector;
+extern SMsgQue *OSCRecInVector;
+/* 使用一个转发器入口队列缓存区资源 */
+extern SMsgQue *RTInVector;
 
 /* 使用一个微秒定时器资源 */
 extern STimerUs *OSCSendTimerUs;
 /* 使用一个微秒定时器资源 */
 extern STimerUs *OSCRecTimerUs;
 
+/* 使用一个消息内存资源 */
+extern SDataSpace *DataSpace;
 /* 使用一个看门狗队列资源 */
-extern SVector *WatchDogVector;
+extern char WatchDogVector[ThreadNumTotal];
 
-/* 使用一个入口队列互斥量资源 */
-extern CRITICAL_SECTION S_csRTIn;   //互斥量
 
 UINT WINAPI OSCRecThreadWork(void* pParam)
 {
@@ -53,13 +47,15 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 	while (!OSCRecThread->SExit)
 	{
 		a1 = OSCRecTimerUs->Timer();
-		if (a1 >= 2000)
+		if (a1 >= 1000 && ++ia1 == 1)
 		{
-			printf("                 %d\n", a1);
+			printf("               %d\n", (a1 / ia1));
+			a1 = 0;
+			ia1 = 0;
 		}
 		OSCRecTimerUs->Zero();
 		/* 喂狗 */
-		WatchDogVector->Queue1[OSCRecThreadNum] = TRUE;
+		WatchDogVector[OSCRecThreadNum] = TRUE;
 		/** 读取输入缓冲区中一个字节的数据 */
 		if (TRUE == OSCOutSideCommSelect->OutSideCommRecSelect(cRecByte))
 		{
@@ -68,14 +64,6 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 			/** 接收到字节传入帧分析器*/
 			OSCByteAnalySelect->AnalysisSelect(cRecByte);
 		}
-
-		/** 业务发送器 */
-
-		/** 将需要向其他模块申请的业务发给中心转发器 */
-		//if (TRUE != OSCServiceSender->ServiceSender())
-		//{
-		//	/* 发送错误 */
-		//}
 	}
 	return 0;
 }
@@ -90,30 +78,27 @@ UINT WINAPI OSCSendThreadWork(void* pParam)
 	while (!OSCSendThread->SExit)
 	{
 		a1 = OSCSendTimerUs->Timer();
-		if (a1 >= 2000)
+		if (a1 >= 1000 && ++ia1 == 1)
 		{
-			printf("                                        %d\n", a1);
+			printf("                                  %d\n", (a1/ia1));
+			a1 = 0;
+			ia1 = 0;
 		}
 		OSCSendTimerUs->Zero();
 		/* 喂狗 */
-		WatchDogVector->Queue1[OSCSendThreadNum] = TRUE;
-
-		/* 进入临界段 */
-		EnterCriticalSection(&S_csOSCSendIn);
-		if (NULL != OSCSendInBuffVector.size())
+		WatchDogVector[OSCSendThreadNum] = TRUE;
+		if (0 != OSCSendInVector->Count)
 		{
-			//a1 += OSCSendInBuffVector.size();
+			//a1 += OSCSendInVector.size();
 			//if (800 == ia1++)
 			//{
 			//	printf("XXXXXXXXXXX %d\n", (a1/ia1));
 			//	a1 = 0;
 			//	ia1 = 0;
 			//}
-			V = OSCSendInBuffVector[0];
-			/* 清除已经转发的地址 */
-			OSCSendInBuffVector.erase(OSCSendInBuffVector.begin());
-			/** 离开临界段 */
-			LeaveCriticalSection(&S_csOSCSendIn);
+			V = OSCSendInVector->PopFront();
+			DataSpace->SpaceDel(V);
+
 			//system("cls");
 			//printf("1:%d \n",V);
 			//printf("2: ");
@@ -122,12 +107,6 @@ UINT WINAPI OSCSendThreadWork(void* pParam)
 			//	printf("%X ", V->Data[i]);
 			//}
 			//printf("\n");
-			delete V;
-		}
-		else
-		{
-			/** 离开临界段 */
-			LeaveCriticalSection(&S_csOSCSendIn);
 		}
 		//qDebug() << mTimerUs->Timer();
 		//qDebug() << mTimerUs->Timer();

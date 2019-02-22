@@ -5,7 +5,7 @@
 #include <Windows.h>  
 #include <qDebug.h>  
 #include "QueueConfig.h"
-#include "S_Vector.h"
+#include "S_Queue.h"
 #include "S_ByteAnalySelect.h"
 #include "Protocol.h"
 #include "S_ServiceSender.h"  

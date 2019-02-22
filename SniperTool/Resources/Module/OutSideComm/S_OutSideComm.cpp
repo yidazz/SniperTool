@@ -27,16 +27,12 @@ SFirAnalysis *OSCFirAnalysis = new SFirAnalysis;
 /* 使用一个业务发送器资源 */
 SServiceSender *OSCServiceSender = new SServiceSender;
 
-/* 使用一个外部字节接收队列缓存区资源 */
-SVector *OSCRecByteQueue = new SVector;
-/* 使用一个入口队列互斥量资源 */
-CRITICAL_SECTION S_csOSCSendIn;   //互斥量
-/* 使用一个入口队列互斥量资源 */
-CRITICAL_SECTION S_csOSCRecIn;   //互斥量
+/* 使用一个消息内存资源 */
+SDataSpace *DataSpace = new SDataSpace;
 /* 使用一个发送入口队列缓存区资源 */
-vector <MESSAGE*> OSCSendInBuffVector;
+SMsgQue *OSCSendInVector = new SMsgQue;
 /* 使用一个接收入口队列缓存区资源 */
-vector <MESSAGE*> OSCRecInBuffVector;
+SMsgQue *OSCRecInVector = new SMsgQue;
 
 /* 使用一个微秒定时器资源 */
 STimerUs *OSCSendTimerUs = new STimerUs;
@@ -46,15 +42,11 @@ STimerUs *OSCRecTimerUs = new STimerUs;
 
 OutSideCommModule::OutSideCommModule()
 {
-	InitializeCriticalSection(&S_csOSCSendIn);
-	InitializeCriticalSection(&S_csOSCRecIn);
 	ErrCode = NoError;
 }
 
 OutSideCommModule::~OutSideCommModule()
 {
-	DeleteCriticalSection(&S_csOSCSendIn);
-	DeleteCriticalSection(&S_csOSCRecIn);
 	ErrCode = NoError;
 	EndOSCM();
 	CloseSerialPort();

@@ -5,7 +5,7 @@
 #include <Windows.h>  
 #include <qDebug.h> 
 #include "S_Thread.h" 
-#include "S_Vector.h"
+#include "S_Queue.h"
 #include "Protocol.h"
 #include "S_TimerUs.h"  
 #include "S_SerialPort.h"  

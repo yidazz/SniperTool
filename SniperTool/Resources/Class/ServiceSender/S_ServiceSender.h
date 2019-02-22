@@ -3,9 +3,8 @@
 #define S_SERVICESENDER_H  
 
 #include <Windows.h>  
-#include <vector>
 #include <qDebug.h>  
-#include "S_Vector.h"
+#include "S_Queue.h"
 #include "Protocol.h"
 #include <iostream>  
 

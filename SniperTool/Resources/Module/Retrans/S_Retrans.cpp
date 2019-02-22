@@ -9,20 +9,16 @@ SThread *RTMThread = new SThread;
 /* 使用一个微秒定时器资源 */
 STimerUs *RTTimerUs = new STimerUs;
 
-/* 使用一个入口队列互斥量资源 */
-CRITICAL_SECTION S_csRTIn;   //互斥量
-/* 使用一个入口队列缓存区资源 */
-vector <MESSAGE*> RTInVector;
+/* 使用一个转发器入口队列缓存区资源 */
+SMsgQue *RTInVector = new SMsgQue;
 
 RetransModule::RetransModule()
 {
-	InitializeCriticalSection(&S_csRTIn);
 	ErrCode = NoError;
 }
 
 RetransModule::~RetransModule()
 {
-	DeleteCriticalSection(&S_csRTIn);
 	ErrCode = NoError;
 	EndRTM();
 }

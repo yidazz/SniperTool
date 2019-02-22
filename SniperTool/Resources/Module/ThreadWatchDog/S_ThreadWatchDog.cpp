@@ -7,18 +7,14 @@ extern UINT WINAPI TWDWork(void* pParam);
 SThread *TWDThread = new SThread;
 
 /* 使用一个看门狗队列资源 */
-SVector *WatchDogVector = new SVector;
-
-/* 暂时使用一个存储工作中的线程号的队列资源 */
-SVector *WorkingThreadNum = new SVector;
+char WatchDogVector[ThreadNumTotal];
 
 ThreadWatchDogModule::ThreadWatchDogModule()
 {
 	for (int i = 0;i < ThreadNumTotal;i++)
 	{
-		WorkingThreadNum->Queue1.push_back(i);
+		WatchDogVector[i] = TRUE;
 	}
-	WatchDogVector->Queue1.insert(WatchDogVector->Queue1.begin(), ThreadNumTotal ,0);
 }
 
 ThreadWatchDogModule::~ThreadWatchDogModule()

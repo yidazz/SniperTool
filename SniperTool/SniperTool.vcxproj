@@ -98,7 +98,7 @@
     <ClCompile Include="Resources\Class\ServiceSender\S_ServiceSender.cpp" />
     <ClCompile Include="Resources\Class\Thread\S_Thread.cpp" />
     <ClCompile Include="Resources\Class\TimerUs\S_TimerUs.cpp" />
-    <ClCompile Include="Resources\Class\Vector\S_Vector.cpp" />
+    <ClCompile Include="Resources\Class\Vector\S_Queue.cpp" />
     <ClCompile Include="Resources\Module\OutSideComm\S_OutSideCommWork.cpp" />
     <ClCompile Include="Resources\Module\OutSideComm\S_OutSideComm.cpp" />
     <ClCompile Include="Resources\Module\Retrans\S_Retrans.cpp" />
@@ -140,7 +140,7 @@
     <ClInclude Include="Resources\Class\ServiceSender\S_ServiceSender.h" />
     <ClInclude Include="Resources\Class\Thread\S_Thread.h" />
     <ClInclude Include="Resources\Class\TimerUs\S_TimerUs.h" />
-    <ClInclude Include="Resources\Class\Vector\S_Vector.h" />
+    <ClInclude Include="Resources\Class\Vector\S_Queue.h" />
     <ClInclude Include="Resources\Common\ErrorTable.h" />
     <ClInclude Include="Resources\Common\Protocol.h" />
     <ClInclude Include="Resources\Config\QueueConfig.h" />

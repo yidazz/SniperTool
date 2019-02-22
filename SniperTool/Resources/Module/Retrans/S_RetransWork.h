@@ -9,7 +9,6 @@
 #include "S_ByteAnalysis.h"
 #include "S_TimerUs.h"  
 #include <stdio.h>
-using std::vector;
 
 
 #endif //S_RETRANSWORK_H_ 

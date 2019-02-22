@@ -3,9 +3,10 @@
 #define PROTOCOL_H_  
 
 #include <Windows.h>  
-#include <vector>
-using std::vector;
+
 /* 公共部分 */
+
+#define MsgDataMaxLen 1000   //
 
 
 
@@ -22,6 +23,7 @@ enum ServiceMsgProtocol {
 };
 
 enum ThreadNum {
+	NoThreadNum,          //预留
 	TWDThreadNum,             //线程看门狗线程
 	RTThreadNum,              //转发器线程
 	OSCSendThreadNum,         //发送线程
@@ -45,19 +47,31 @@ enum InBuffMsgProtocol {
 	InBuffMsgProtocolTotal,       // 总数
 };
 
-class MESSAGE
-{
-//public:
-//	~MESSAGE()
-//	{
-//		vector<char>().swap(Data);
-//	}
-public:
-	unsigned int ServiceNum;//消息编号
-	ThreadNum SourceNum;//来源模块
-	ThreadNum DestNum;//目的模块
-	char Data[3000];
+enum MsgStateProtocol {
+	MsgUnHandle,                 // 未处理
+	MsgHandling,                 // 处理中
+	MsgHadHandle,                // 已处理
+	MsgStateProtocolTotal,      // 总数
+};
+enum SpaceStateProtocol {
+	SpaceFree,                // 空间空闲 
+	SpaceUsed,                 // 空间占用
+	SpaceStateProtocolTotal,      // 总数
 };
 
+/* 消息结构体 */
+typedef struct
+{
+	/* 结构体状态 */
+	unsigned int  MsgSpaPos = NULL;  //消息在空间中的位置
+	MsgStateProtocol MsgState = MsgUnHandle; //消息状态
+	int DataCount = 0;   //数据个数
+	/* 结构体数据 */
+	unsigned int ServiceNum = 0;  //消息编号
+	ThreadNum SourceNum = NoThreadNum;//来源模块
+	ThreadNum DestNum = NoThreadNum;//目的模块
+	char Data[MsgDataMaxLen] = { 0 }; //数据
+}MESSAGE;
 
-#endif //PROTOCOL_H_ 
+
+#endif

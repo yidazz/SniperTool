@@ -11,7 +11,7 @@
 #include "S_OutSideCommSelect.h"
 #include "S_ByteAnalySelect.h"
 #include "S_ServiceSender.h"  
-#include "S_Vector.h"  
+#include "S_Queue.h"  
 
 /** 外部通信模块类
 *

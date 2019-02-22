@@ -5,7 +5,7 @@
 #include <Windows.h>  
 #include "ErrorTable.h"
 #include "S_Thread.h"
-#include "S_Vector.h"
+#include "S_Queue.h"
 #include "Protocol.h"
 
 /** 线程看门狗模块类
