@@ -64,6 +64,69 @@ unsigned int SMsgQue::PopFront()
 }
 
 /**************************/
+/*       环形数组类       */
+/**************************/
+//
+//
+//SUintQue::SUintQue()
+//{
+//	ReadIndex = NULL;
+//	WriteIndex = NULL;
+//	Count = NULL;
+//	InitializeCriticalSection(&csQue);
+//}
+//
+//SUintQue::~SUintQue()
+//{
+//	DeleteCriticalSection(&csQue);
+//}
+//
+//bool SUintQue::PushBack(unsigned int Data)
+//{
+//	/* 进入临界段 */
+//	EnterCriticalSection(&csQue);
+//	if (MsgQueLen > Count)
+//	{
+//		Que[WriteIndex] = Data;
+//		WriteIndex++;
+//		if (MsgQueLen <= WriteIndex)
+//		{
+//			WriteIndex = NULL;
+//		}
+//		Count++;
+//		/** 离开临界段 */
+//		LeaveCriticalSection(&csQue);
+//		return TRUE;
+//	}
+//	/** 离开临界段 */
+//	LeaveCriticalSection(&csQue);
+//	return FALSE;
+//}
+//
+//unsigned int SUintQue::PopFront()
+//{
+//	unsigned int Data;
+//	/* 进入临界段 */
+//	EnterCriticalSection(&csQue);
+//	if (0 != Count)
+//	{
+//		Data = Que[ReadIndex];
+//		ReadIndex++;
+//		if (MsgQueLen <= ReadIndex)
+//		{
+//			ReadIndex = NULL;
+//		}
+//		Count--;
+//		/** 离开临界段 */
+//		LeaveCriticalSection(&csQue);
+//		return Data;
+//	}
+//	/** 离开临界段 */
+//	LeaveCriticalSection(&csQue);
+//	return ErrUint;
+//}
+
+/**************************/
 /*     消息内存管理类     */
 /**************************/
 
@@ -144,8 +207,6 @@ bool SDataSpace::MsgWrite(unsigned int Index, MsgStateProtocol MsgState,
 	unsigned int DataCount, unsigned int ServiceNum,
 	ThreadNum SourceNum, ThreadNum DestNum, char Data[MsgDataMaxLen])
 {
-	/* 进入临界段 */
-	EnterCriticalSection(&csSpace);
 	Space[Index].MsgState = MsgState;
 	Space[Index].DataCount = DataCount;
 	Space[Index].ServiceNum = ServiceNum;
@@ -155,31 +216,22 @@ bool SDataSpace::MsgWrite(unsigned int Index, MsgStateProtocol MsgState,
 	{
 		Space[Index].Data[i] = Data[i];
 	}
-	/** 离开临界段 */
-	LeaveCriticalSection(&csSpace); 
 	return TRUE;
 }
 
 MESSAGE SDataSpace::MsgReadAll(unsigned int Index)
 {
-	MESSAGE TData;
-	/* 进入临界段 */
-	EnterCriticalSection(&csSpace);
-	TData = Space[Index];
-	/** 离开临界段 */
-	LeaveCriticalSection(&csSpace);
-	return TData;
+	return Space[Index];
 }
 
 ThreadNum SDataSpace::MsgReadDest(unsigned int Index)
 {
-	ThreadNum TData;
-	/* 进入临界段 */
-	EnterCriticalSection(&csSpace);
-	TData = Space[Index].DestNum;
-	/** 离开临界段 */
-	LeaveCriticalSection(&csSpace);
-	return TData;
+	return Space[Index].DestNum;
+}
+
+char* SDataSpace::MsgReadData(unsigned int Index)
+{
+	return &Space[Index].Data[0];
 }
 
 void SDataSpace::SpaceMsgClear(unsigned int Index)

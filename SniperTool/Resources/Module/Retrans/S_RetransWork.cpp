@@ -26,86 +26,30 @@ extern SDataSpace *DataSpace;
 
 UINT WINAPI RTWork(void* pParam)
 {
-	unsigned int V;
-	uint a1 = 0;
-	int ia1 = 0;
-	RTTimerUs->Zero();
+	unsigned int RTMsgIndexBuff = 0;
+	
 	// 线程循环
 	while (!RTMThread->SExit)
 	{
-		a1 = RTTimerUs->Timer();
-		if (a1 >= 10000 && ++ia1 == 1)
-		{
-			printf("%d\n", (a1 / ia1));
-			a1 = 0;
-			ia1 = 0;
-		}
-		RTTimerUs->Zero();
 		/* 喂狗 */
 		WatchDogVector[RTThreadNum] = TRUE;
 		if (0 != RTInVector->Count)
-		{/*
-			a1 += RTInVector.size();
-			if (800 == ia1++)
-			{
-				printf("                 %d\n", (a1 / ia1));
-				a1 = 0;
-				ia1 = 0;
-			}*/
-			V = RTInVector->PopFront();
-			switch (DataSpace->MsgReadDest(V))
+		{
+			RTMsgIndexBuff = RTInVector->PopFront();
+			switch (DataSpace->MsgReadDest(RTMsgIndexBuff))
 			{
 				case TWDThreadNum:
 					break;
 				case OSCSendThreadNum:
 					/* 将消息地址推入发送线程入口 */
-					OSCSendInVector->PushBack(V);
+					OSCSendInVector->PushBack(RTMsgIndexBuff);
 					break;
 				case OSCRecThreadNum:
 					/* 将消息地址推入接收线程入口 */
-					OSCRecInVector->PushBack(V);
+					OSCRecInVector->PushBack(RTMsgIndexBuff);
 					break;
 				default:break;
 			}
-
-			//system("cls");
-			//printf("1:%d \n",RTInVector[0]);
-			//V = RTInVector[0];
-			//printf("2: ");
-			//	
-			//for (UINT i = 0; i < V->Data.size(); i++)
-			//{
-			//	printf("%X ", V->Data[i]);
-			//}
-			//printf("\n");
-			//delete V;
-			//RTInVector.erase(RTInVector.begin());
-
-			/** 进入临界段 */
-			//EnterCriticalSection(&RTInVector->S_csVector2);
-
-			//switch (RTInVecto[0])
-			//{
-			//	case OSCSendModNum: 
-			//		/** 进入临界段 */
-			//		EnterCriticalSection(&OSCSendInVector->S_csVector2);
-			//		OSCSendInVector->Queue2.push_back(RTInVector[0]);
-			//		RTInVector.erase(RTInVector.begin());
-			//		/** 离开临界段 */
-			//		LeaveCriticalSection(&OSCSendInVector->S_csVector2);
-			//		break;
-			//	case OSCRecModNum:
-			//		/** 进入临界段 */
-			//		EnterCriticalSection(&OSCRecInVector->S_csVector2);
-			//		OSCRecInVector->Queue2.push_back(RTInVector->Queue2[0]);
-			//		RTInVector->Queue2.erase(RTInVector->Queue2.begin());
-			//		/** 离开临界段 */
-			//		LeaveCriticalSection(&OSCRecInVector->S_csVector2);
-			//		break;
-			//	default:break;
-			//}
-			/** 离开临界段 */
-			//LeaveCriticalSection(&RTInVector->S_csVector2);
 		}
 	}
 	return 0;

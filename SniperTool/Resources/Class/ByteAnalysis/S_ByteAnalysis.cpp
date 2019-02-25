@@ -42,7 +42,7 @@ SFirAnalysis::~SFirAnalysis()
 bool SFirAnalysis::FirAnalysis(char &rRecByte)
 {
 	unsigned int NewMemory;
-	char TempData[1] = { 1 };
+	char TempData[1] = { '2' };
 	/** 收到帧的开头 */
 	//if (ProFir_Header == rRecByte)
 	//{

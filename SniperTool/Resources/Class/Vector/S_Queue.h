@@ -7,8 +7,9 @@
 using namespace std;
 
 #define ErrUint      4294967295 // Uint最大值用作错误标志
-#define MsgQueLen    100000   //消息队列长度 最大为 4294967294
-#define DataSpaceLen 100000   //消息数据内存长度 最大为 4294967294
+#define MsgQueLen    1000   //消息队列长度 最大为 4294967294
+#define DataSpaceLen 1000   //消息数据内存长度 最大为 4294967294
+//#define UintQueLen   1000   //消息数据内存长度 最大为 4294967294
 
 /** 自定队列类 */
 
@@ -34,6 +35,28 @@ private:
 	CRITICAL_SECTION   csQue;   //互斥操作一维队列
 };
 
+/* 环形数组类 */
+//class SUintQue
+//{
+//public:
+//	SUintQue();
+//	~SUintQue();
+//
+//public:
+//	bool PushBack(unsigned int Data);
+//	unsigned int PopFront();
+//
+//public:
+//	unsigned int Count;  //队列计数 
+//
+//private:
+//	unsigned int Que[UintQueLen];
+//
+//	unsigned int ReadIndex;
+//	unsigned int WriteIndex;
+//	CRITICAL_SECTION   csQue;   //互斥操作一维队列
+//};
+
 
 /* 消息内存管理类 */
 class SDataSpace
@@ -55,6 +78,7 @@ public:
 
 	MESSAGE MsgReadAll(unsigned int Index);
 	ThreadNum MsgReadDest(unsigned int Index);
+	char *MsgReadData(unsigned int Index);
 
 public:
 	unsigned int Count = 0;  //空间计数 

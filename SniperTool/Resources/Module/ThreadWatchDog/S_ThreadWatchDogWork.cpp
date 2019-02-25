@@ -26,13 +26,13 @@ UINT WINAPI TWDWork(void* pParam)
 	// Ïß³ÌÑ­»·
 	while (!TWDThread->SExit)
 	{
-		if (DataSpace->Count > 00)
+		//if (DataSpace->Count >= 00)
+		//{
+		//	printf("%d\n", DataSpace->Count);
+		//}
+		if (DataSpace->Count >= 900)
 		{
-			printf("1                                                              %d\n", DataSpace->Count);
-		}
-		if (DataSpace->Count >= 999990)
-		{
-			printf("1                                                              %d\n", DataSpace->Count);
+			printf("%d\n", DataSpace->Count);
 			SS3->EndOSCM();
 			SS3->CloseSerialPort();
 			SS5->EndRTM();

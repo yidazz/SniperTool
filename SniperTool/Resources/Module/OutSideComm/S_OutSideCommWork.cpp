@@ -37,25 +37,29 @@ extern char WatchDogVector[ThreadNumTotal];
 
 UINT WINAPI OSCRecThreadWork(void* pParam)
 {
-	uint a1 = 0;
-	int ia1 = 0;
 	/** 临时储存读取输入缓冲区中一个字节的数据 */
 	char cRecByte = NULL;
+	SMsgQue *MsgQue1 = new SMsgQue;
+	unsigned int UnhandleCount = 0;   //储存未处理的消息
 
-	OSCRecTimerUs->Zero();
 	// 线程循环
 	while (!OSCRecThread->SExit)
 	{
-		a1 = OSCRecTimerUs->Timer();
-		if (a1 >= 100000 && ++ia1 == 1)
-		{
-			printf("               %d\n", (a1 / ia1));
-			a1 = 0;
-			ia1 = 0;
-		}
-		OSCRecTimerUs->Zero();
 		/* 喂狗 */
 		WatchDogVector[OSCRecThreadNum] = TRUE;
+
+		/** 判断入口区中是否有消息 */
+		if (0 != OSCRecInVector->Count)
+		{
+			/** 从入口区中取一个消息 */
+			MsgQue1->PushBack(OSCRecInVector->PopFront());
+			UnhandleCount++;
+		}
+		if (0 != UnhandleCount)
+		{
+			UnhandleCount--;
+		}
+
 		/** 读取输入缓冲区中一个字节的数据 */
 		//if (TRUE == OSCOutSideCommSelect->OutSideCommRecSelect(cRecByte))
 		{
@@ -63,7 +67,7 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 
 			/** 接收到字节传入帧分析器*/
 			OSCByteAnalySelect->AnalysisSelect(cRecByte);
-			Sleep(0.5);
+			Sleep(0.01);
 		}
 	}
 	return 0;
@@ -72,20 +76,10 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 UINT WINAPI OSCSendThreadWork(void* pParam)
 {
 	unsigned int V;
-	uint a1=0;
-	int ia1 = 0;
-	OSCSendTimerUs->Zero();
+	char *D;
 	 //线程循环,轮询方式读取串口数据  
 	while (!OSCSendThread->SExit)
 	{
-		a1 = OSCSendTimerUs->Timer();
-		if (a1 >= 10000 && ++ia1 == 1)
-		{
-			printf("                                  %d\n", (a1/ia1));
-			a1 = 0;
-			ia1 = 0;
-		}
-		OSCSendTimerUs->Zero();
 		/* 喂狗 */
 		WatchDogVector[OSCSendThreadNum] = TRUE;
 		if (0 != OSCSendInVector->Count)
@@ -98,6 +92,12 @@ UINT WINAPI OSCSendThreadWork(void* pParam)
 			//	ia1 = 0;
 			//}
 			V = OSCSendInVector->PopFront();
+			D = DataSpace->MsgReadData(V);
+			if ('2' != D[0])
+			{
+				printf("ERROR");
+				system("pause");
+			}
 			DataSpace->SpaceDel(V);
 
 			//system("cls");
