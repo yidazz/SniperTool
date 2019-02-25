@@ -6,8 +6,9 @@
 #include "Protocol.h"
 using namespace std;
 
-#define MsgQueLen 1000   //消息队列长度
-#define DataSpaceLen 1000   //消息数据内存长度
+#define ErrUint      4294967295 // Uint最大值用作错误标志
+#define MsgQueLen    100000   //消息队列长度 最大为 4294967294
+#define DataSpaceLen 100000   //消息数据内存长度 最大为 4294967294
 
 /** 自定队列类 */
 
@@ -19,16 +20,17 @@ public:
 	~SMsgQue();
 
 public:
-	bool PushBack(MESSAGE* Index);
-	MESSAGE* PopFront();
+	bool PushBack(unsigned int Index);
+	unsigned int PopFront();
 
 public:
-	int Count;  //队列计数 
+	unsigned int Count;  //队列计数 
 
 private:
-	MESSAGE* Que[MsgQueLen];
-	int ReadIndex;
-	int WriteIndex;
+	unsigned int Que[MsgQueLen];
+
+	unsigned int ReadIndex;
+	unsigned int WriteIndex;
 	CRITICAL_SECTION   csQue;   //互斥操作一维队列
 };
 
@@ -40,19 +42,30 @@ public:
 	SDataSpace();
 	~SDataSpace();
 
+//对空间操作
 public:
-	MESSAGE* UseSpace();
-	bool SpaceDel(MESSAGE* Index);
+	unsigned int UseSpace();         //申请一个消息空间   返回空间索引号
+	bool SpaceDel(unsigned int Index);    //删除一个消息空间
+
+//对消息内容操作
+public:
+	bool MsgWrite(unsigned int Index, MsgStateProtocol MsgState,
+		unsigned int DataCount, unsigned int ServiceNum,
+		ThreadNum SourceNum, ThreadNum DestNum, char Data[MsgDataMaxLen]);
+
+	MESSAGE MsgReadAll(unsigned int Index);
+	ThreadNum MsgReadDest(unsigned int Index);
 
 public:
-	int Count = 0;  //空间计数 
+	unsigned int Count = 0;  //空间计数 
 
 private:
-	void SpaceMsgClear(MESSAGE* Index);
+	void SpaceMsgClear(unsigned int Index);
 
 private:
 	MESSAGE Space[DataSpaceLen];
-	int PollIndex = 0; //轮询指针
+
+	unsigned int PollIndex = 0; //轮询指针
 	SpaceStateProtocol SpaceState[DataSpaceLen];   //标记内存是否被占用
 	CRITICAL_SECTION   csSpace;   //互斥操作一维队列
 };

@@ -135,9 +135,9 @@ void SniperTool::ClickButton6()
 void SniperTool::ClickButton7()
 {
 	//qDebug() << "Click7";
-	qDebug() << SS3->InitOSCM();
 	qDebug() << SS3->OpenSerialPort();
 	qDebug() << SS5->InitRTM();
+	qDebug() << SS3->InitOSCM();
 	qDebug() << SS4->InitTWDM();
 }
 

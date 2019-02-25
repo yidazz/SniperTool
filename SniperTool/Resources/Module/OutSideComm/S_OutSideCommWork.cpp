@@ -47,7 +47,7 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 	while (!OSCRecThread->SExit)
 	{
 		a1 = OSCRecTimerUs->Timer();
-		if (a1 >= 1000 && ++ia1 == 1)
+		if (a1 >= 100000 && ++ia1 == 1)
 		{
 			printf("               %d\n", (a1 / ia1));
 			a1 = 0;
@@ -57,12 +57,13 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 		/* 喂狗 */
 		WatchDogVector[OSCRecThreadNum] = TRUE;
 		/** 读取输入缓冲区中一个字节的数据 */
-		if (TRUE == OSCOutSideCommSelect->OutSideCommRecSelect(cRecByte))
+		//if (TRUE == OSCOutSideCommSelect->OutSideCommRecSelect(cRecByte))
 		{
 			/** 帧分析器 */
 
 			/** 接收到字节传入帧分析器*/
 			OSCByteAnalySelect->AnalysisSelect(cRecByte);
+			Sleep(0.5);
 		}
 	}
 	return 0;
@@ -70,7 +71,7 @@ UINT WINAPI OSCRecThreadWork(void* pParam)
 
 UINT WINAPI OSCSendThreadWork(void* pParam)
 {
-	MESSAGE *V;
+	unsigned int V;
 	uint a1=0;
 	int ia1 = 0;
 	OSCSendTimerUs->Zero();
@@ -78,7 +79,7 @@ UINT WINAPI OSCSendThreadWork(void* pParam)
 	while (!OSCSendThread->SExit)
 	{
 		a1 = OSCSendTimerUs->Timer();
-		if (a1 >= 1000 && ++ia1 == 1)
+		if (a1 >= 10000 && ++ia1 == 1)
 		{
 			printf("                                  %d\n", (a1/ia1));
 			a1 = 0;

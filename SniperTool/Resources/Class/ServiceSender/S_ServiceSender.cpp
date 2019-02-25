@@ -21,7 +21,7 @@ SServiceSender::~SServiceSender()
 }
 
 
-bool SServiceSender::ServiceSender(MESSAGE* MessageIndex)
+bool SServiceSender::ServiceSender(unsigned int MessageIndex)
 {
 	/* 将消息地址推入转发器入口 */
 	RTInVector->PushBack(MessageIndex);

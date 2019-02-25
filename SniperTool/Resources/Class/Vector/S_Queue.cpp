@@ -18,7 +18,7 @@ SMsgQue::~SMsgQue()
 	DeleteCriticalSection(&csQue);
 }
 
-bool SMsgQue::PushBack(MESSAGE* Index)
+bool SMsgQue::PushBack(unsigned int Index)
 {
 	/* 进入临界段 */
 	EnterCriticalSection(&csQue);
@@ -40,9 +40,9 @@ bool SMsgQue::PushBack(MESSAGE* Index)
 	return FALSE;
 }
 
-MESSAGE* SMsgQue::PopFront()
+unsigned int SMsgQue::PopFront()
 {
-	MESSAGE* Msg;
+	unsigned int Msg;
 	/* 进入临界段 */
 	EnterCriticalSection(&csQue);
 	if (0 != Count)
@@ -60,7 +60,7 @@ MESSAGE* SMsgQue::PopFront()
 	}
 	/** 离开临界段 */
 	LeaveCriticalSection(&csQue);
-	return NULL;
+	return ErrUint;
 }
 
 /**************************/
@@ -83,9 +83,9 @@ SDataSpace::~SDataSpace()
 	DeleteCriticalSection(&csSpace);
 }
 
-MESSAGE* SDataSpace::UseSpace()
+unsigned int SDataSpace::UseSpace()
 {
-	MESSAGE* Index;
+	unsigned int Index;
 	/* 进入临界段 */
 	EnterCriticalSection(&csSpace);
 	if (DataSpaceLen > Count)   //一定能找到空位
@@ -94,8 +94,7 @@ MESSAGE* SDataSpace::UseSpace()
 		{
 			if (SpaceFree == SpaceState[PollIndex])
 			{
-				Space[PollIndex].MsgSpaPos = PollIndex;   //存入消息在Space中的索引号
-				Index = &Space[PollIndex];                //提取出这个地址
+				Index = PollIndex;   //取出消息在Space中的索引号
 				SpaceState[PollIndex] = SpaceUsed;        //将空间占用标志置为占用状态
 				PollIndex++;                              //找空位指针后移
 				if (DataSpaceLen <= PollIndex)
@@ -119,20 +118,20 @@ MESSAGE* SDataSpace::UseSpace()
 	}
 	/** 离开临界段 */
 	LeaveCriticalSection(&csSpace);
-	return NULL;
+	return ErrUint;
 }
 
-bool SDataSpace::SpaceDel(MESSAGE* Index)
+bool SDataSpace::SpaceDel(unsigned int Index)
 {
 	/* 进入临界段 */
 	EnterCriticalSection(&csSpace);
-	if (SpaceFree == SpaceState[Index->MsgSpaPos])      //如果空间本来就是空闲状态  则报错
+	if (SpaceFree == SpaceState[Index])      //如果空间本来就是空闲状态  则报错
 	{
 		/** 离开临界段 */
 		LeaveCriticalSection(&csSpace);
 		return FALSE;
 	}
-	SpaceState[Index->MsgSpaPos] = SpaceFree;         //将空间置为空闲状态
+	SpaceState[Index] = SpaceFree;         //将空间置为空闲状态
 	SpaceMsgClear(Index);							//空间初始化
 	Count--;									
 
@@ -141,16 +140,60 @@ bool SDataSpace::SpaceDel(MESSAGE* Index)
 	return TRUE;
 }
 
-void SDataSpace::SpaceMsgClear(MESSAGE* Index)
+bool SDataSpace::MsgWrite(unsigned int Index, MsgStateProtocol MsgState,
+	unsigned int DataCount, unsigned int ServiceNum,
+	ThreadNum SourceNum, ThreadNum DestNum, char Data[MsgDataMaxLen])
 {
-	Index->MsgSpaPos = NULL;
-	Index->MsgState = MsgUnHandle;
-	Index->DataCount = 0;
-	Index->ServiceNum = 0;
-	Index->SourceNum = NoThreadNum;
-	Index->DestNum = NoThreadNum;
+	/* 进入临界段 */
+	EnterCriticalSection(&csSpace);
+	Space[Index].MsgState = MsgState;
+	Space[Index].DataCount = DataCount;
+	Space[Index].ServiceNum = ServiceNum;
+	Space[Index].SourceNum = SourceNum;
+	Space[Index].DestNum = DestNum;
+	for (int i = 0; i < Space[Index].DataCount; i++)
+	{
+		Space[Index].Data[i] = Data[i];
+	}
+	/** 离开临界段 */
+	LeaveCriticalSection(&csSpace); 
+	return TRUE;
+}
+
+MESSAGE SDataSpace::MsgReadAll(unsigned int Index)
+{
+	MESSAGE TData;
+	/* 进入临界段 */
+	EnterCriticalSection(&csSpace);
+	TData = Space[Index];
+	/** 离开临界段 */
+	LeaveCriticalSection(&csSpace);
+	return TData;
+}
+
+ThreadNum SDataSpace::MsgReadDest(unsigned int Index)
+{
+	ThreadNum TData;
+	/* 进入临界段 */
+	EnterCriticalSection(&csSpace);
+	TData = Space[Index].DestNum;
+	/** 离开临界段 */
+	LeaveCriticalSection(&csSpace);
+	return TData;
+}
+
+void SDataSpace::SpaceMsgClear(unsigned int Index)
+{
+	// 子函数
+	// 调用环境相关互斥量必须已上锁
+	Space[Index].MsgState = NoMsgState;
+	Space[Index].DataCount = 0;
+	Space[Index].ServiceNum = 0;
+	Space[Index].SourceNum = NoThreadNum;
+	Space[Index].DestNum = NoThreadNum;
 	for (int i = 0;i < MsgDataMaxLen;i++)
 	{
-		Index->Data[i] = 0;
+		Space[Index].Data[i] = 0;
 	}
 }
+

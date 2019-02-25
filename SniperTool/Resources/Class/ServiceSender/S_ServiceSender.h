@@ -20,7 +20,7 @@ public:
 	~SServiceSender();
 
 public:
-	bool ServiceSender(MESSAGE* MessageIndex);
+	bool ServiceSender(unsigned int MessageIndex);
 
 };
 

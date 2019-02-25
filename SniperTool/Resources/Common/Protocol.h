@@ -48,6 +48,7 @@ enum InBuffMsgProtocol {
 };
 
 enum MsgStateProtocol {
+	NoMsgState,                  // 预留
 	MsgUnHandle,                 // 未处理
 	MsgHandling,                 // 处理中
 	MsgHadHandle,                // 已处理
@@ -62,11 +63,10 @@ enum SpaceStateProtocol {
 /* 消息结构体 */
 typedef struct
 {
-	/* 结构体状态 */
-	unsigned int  MsgSpaPos = NULL;  //消息在空间中的位置
-	MsgStateProtocol MsgState = MsgUnHandle; //消息状态
-	int DataCount = 0;   //数据个数
-	/* 结构体数据 */
+	/* 状态 */
+	MsgStateProtocol MsgState = NoMsgState; //消息状态
+	unsigned int DataCount = 0;   //数据个数
+	/* 数据 */
 	unsigned int ServiceNum = 0;  //消息编号
 	ThreadNum SourceNum = NoThreadNum;//来源模块
 	ThreadNum DestNum = NoThreadNum;//目的模块

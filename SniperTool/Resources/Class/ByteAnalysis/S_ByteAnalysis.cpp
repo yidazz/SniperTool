@@ -18,7 +18,6 @@ STimerUs *Temp1 =new STimerUs;
 STimerUs *Temp2 = new STimerUs;
 STimerUs *Temp3 = new STimerUs;
 
-MESSAGE *NewMemory;
 uint Sa1 = 0;
 uint Sa2 = 0;
 int temp = 0;
@@ -42,7 +41,8 @@ SFirAnalysis::~SFirAnalysis()
 
 bool SFirAnalysis::FirAnalysis(char &rRecByte)
 {
-	int State = NoComplete;
+	unsigned int NewMemory;
+	char TempData[1] = { 1 };
 	/** 收到帧的开头 */
 	//if (ProFir_Header == rRecByte)
 	//{
@@ -100,10 +100,10 @@ bool SFirAnalysis::FirAnalysis(char &rRecByte)
 	{
 		/* 申请一个内存区 */
 		NewMemory = DataSpace->UseSpace();
-		if (NULL != NewMemory)
+		if (ErrUint != NewMemory)
 		{
 			/* 组装业务申请消息 */
-			TempMakeMsg(NewMemory);
+			DataSpace->MsgWrite(NewMemory, MsgUnHandle, 1, 0, OSCRecThreadNum, OSCSendThreadNum, TempData);
 			/* 发送内存区地址 */
 			OSCServiceSender->ServiceSender(NewMemory);
 		}

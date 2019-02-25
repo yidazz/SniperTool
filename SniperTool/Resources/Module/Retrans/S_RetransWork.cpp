@@ -19,11 +19,14 @@ extern SMsgQue *OSCSendInVector;
 /* 使用一个接收入口队列缓存区资源 */
 extern SMsgQue *OSCRecInVector;
 
+/* 使用一个消息内存资源 */
+extern SDataSpace *DataSpace;
+
 
 
 UINT WINAPI RTWork(void* pParam)
 {
-	MESSAGE *V;
+	unsigned int V;
 	uint a1 = 0;
 	int ia1 = 0;
 	RTTimerUs->Zero();
@@ -31,7 +34,7 @@ UINT WINAPI RTWork(void* pParam)
 	while (!RTMThread->SExit)
 	{
 		a1 = RTTimerUs->Timer();
-		if (a1 >= 1000 && ++ia1 == 1)
+		if (a1 >= 10000 && ++ia1 == 1)
 		{
 			printf("%d\n", (a1 / ia1));
 			a1 = 0;
@@ -50,16 +53,16 @@ UINT WINAPI RTWork(void* pParam)
 				ia1 = 0;
 			}*/
 			V = RTInVector->PopFront();
-			switch (V->DestNum)
+			switch (DataSpace->MsgReadDest(V))
 			{
 				case TWDThreadNum:
 					break;
 				case OSCSendThreadNum:
-					/* 将消息地址推入转发器入口 */
+					/* 将消息地址推入发送线程入口 */
 					OSCSendInVector->PushBack(V);
 					break;
 				case OSCRecThreadNum:
-					/* 将消息地址推入转发器入口 */
+					/* 将消息地址推入接收线程入口 */
 					OSCRecInVector->PushBack(V);
 					break;
 				default:break;

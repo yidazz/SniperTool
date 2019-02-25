@@ -26,37 +26,45 @@ UINT WINAPI TWDWork(void* pParam)
 	// 线程循环
 	while (!TWDThread->SExit)
 	{
-		if (DataSpace->Count > 300)
+		if (DataSpace->Count > 00)
 		{
 			printf("1                                                              %d\n", DataSpace->Count);
 		}
-		if (RTInVector->Count > 300)
+		if (DataSpace->Count >= 999990)
 		{
-			printf("2                                                            %d\n", RTInVector->Count);
+			printf("1                                                              %d\n", DataSpace->Count);
+			SS3->EndOSCM();
+			SS3->CloseSerialPort();
+			SS5->EndRTM();
+			system("pause");
 		}
-		if (OSCRecInVector->Count > 300)
-		{
-			printf("3                                                             %d\n", OSCRecInVector->Count);
-		}
-		if (OSCSendInVector->Count > 300)
-		{
-			printf("4                                                             %d\n", OSCSendInVector->Count);
-		}
+		//if (RTInVector->Count > 200)
+		//{
+		//	printf("2                                                            %d\n", RTInVector->Count);
+		//}
+		//if (OSCRecInVector->Count > 200)
+		//{
+		//	printf("3                                                             %d\n", OSCRecInVector->Count);
+		//}
+		//if (OSCSendInVector->Count > 200)
+		//{
+		//	printf("4                                                             %d\n", OSCSendInVector->Count);
+		//}
 
-		Sleep(1000);
-		for (uint i = 0;i < ThreadNumTotal;i++)
-		{
-			if (TWDThreadNum == i || NoThreadNum == i) { continue; }           //跳过线程看门狗线程
-			if (TRUE != WatchDogVector[i])
-			{
-				qDebug("Thread Error: %d", i);
-				//qDebug() << SS3->EndOSCM();
-				//qDebug() << SS3->CloseSerialPort();
-				//qDebug() << SS5->EndRTM();
-				//system("pause");
-			}
-			WatchDogVector[i] = FALSE;
-		}
+		//Sleep(1000);
+		//for (uint i = 0;i < ThreadNumTotal;i++)
+		//{
+		//	if (TWDThreadNum == i || NoThreadNum == i) { continue; }           //跳过线程看门狗线程
+		//	if (TRUE != WatchDogVector[i])
+		//	{
+		//		qDebug("Thread Error: %d", i);
+		//		//qDebug() << SS3->EndOSCM();
+		//		//qDebug() << SS3->CloseSerialPort();
+		//		//qDebug() << SS5->EndRTM();
+		//		//system("pause");
+		//	}
+		//	WatchDogVector[i] = FALSE;
+		//}
 	}
 	return 0;
 }
